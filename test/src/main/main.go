@@ -12,7 +12,7 @@ var (
 
 func main() {
 	Pln("Hello World!!!")
-  dd("Hello GoLang!!!")
+  dd("Hello Golang!!!")
 
 	pkgName := PkgName()
 	Prf("Hello %s!!!\n", pkgName)
