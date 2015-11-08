@@ -12,5 +12,6 @@ var (
 
 func main() {
   Pln("Hello World!!!")
-  Prf("Hello %s!!!\n", PkgName())
+  pkgName := PkgName()
+  Prf("Hello %s!!!\n", pkgName)
 }

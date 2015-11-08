@@ -21,6 +21,8 @@ var (
   pln = Pln
 )
 
-func PkgName() {
-  pln("mxUtil")
+func PkgName() (string) {
+  pkgName := "mxUtil"
+  pln(pkgName)
+  return pkgName
 }
