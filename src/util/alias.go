@@ -1,4 +1,4 @@
-package mxUtil
+package util
 
 import (
 	"fmt"

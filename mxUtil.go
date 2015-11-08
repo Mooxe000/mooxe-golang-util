@@ -1,12 +1,14 @@
 package mxUtil
 
 import (
-  . "github.com/Mooxe000/mooxe-golang-util/src/mxUtil"
+  mxu "github.com/Mooxe000/mooxe-golang-util/src/util"
 )
 
 var (
+  Pln = mxu.Pln
+  Dd = mxu.Dd
+
   pln = Pln
-  Dd = Dd
 )
 
 func PkgName() {

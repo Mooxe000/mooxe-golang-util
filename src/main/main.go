@@ -1,13 +1,13 @@
 package main
 
 import (
-  "mxUtil"
+  . "util"
 )
 
 var (
-  pln = mxUtil.Pln
-  dd = mxUtil.Dd
-  typeof = mxUtil.TypeOf
+  pln = Pln
+  dd = Dd
+  typeof = TypeOf
 )
 
 func main() {
