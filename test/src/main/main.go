@@ -1,14 +1,16 @@
 package main
 
 import (
-  mxu "github.com/Mooxe000/mooxe-golang-util"
+  . "github.com/Mooxe000/mooxe-golang-util"
 )
 
 var (
-  dd = mxu.Dd
+  dd = Dd
+  pln = Pln
+  prf = Prf
 )
 
 func main() {
-  mxu.PkgName()
-  dd("Hello World!!!")
+  Pln("Hello World!!!")
+  Prf("Hello %s!!!\n", PkgName())
 }
