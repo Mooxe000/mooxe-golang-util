@@ -1,7 +1,7 @@
 package mxUtil
 
 import (
-  "github.com/Mooxe000/mooxe-golang-util/src/mxUtil"
+  . "github.com/Mooxe000/mooxe-golang-util/src/mxUtil"
 )
 
 func PkgName() (string) {
