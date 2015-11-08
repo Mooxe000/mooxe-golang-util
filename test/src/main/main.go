@@ -1,7 +1,6 @@
 package main
 
 import (
-  . "fmt"
   "github.com/Mooxe000/mooxe-golang-util"
 )
 
@@ -10,6 +9,6 @@ var (
 )
 
 func main() {
-  mxUtil.PkgNmae()
+  mxUtil.PkgName()
   dd("Hello World!!!")
 }
