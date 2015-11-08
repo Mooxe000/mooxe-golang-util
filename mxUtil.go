@@ -5,9 +5,19 @@ import (
 )
 
 var (
+  // alias
   Pln = mxu.Pln
+  Prf = mxu.Prf
+
+  // util
+  TypeOf = mxu.TypeOf
   Dd = mxu.Dd
 
+  // io
+  FileStrFromPath = mxu.FileStrFromPath
+)
+
+var (
   pln = Pln
 )
 
