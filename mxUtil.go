@@ -8,6 +8,6 @@ var (
   pln = Pln
 )
 
-func PkgName() (string) {
+func PkgName() {
   pln("mxUtil")
 }

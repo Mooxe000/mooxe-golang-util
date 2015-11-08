@@ -10,6 +10,6 @@ var (
 )
 
 func main() {
-  Println(mxUtil.PkgNmae)
+  mxUtil.PkgNmae()
   dd("Hello World!!!")
 }
