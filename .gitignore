@@ -1,3 +1,7 @@
 .vendor
 .gopmfile
 output
+
+bin
+pkg
+src/github.com

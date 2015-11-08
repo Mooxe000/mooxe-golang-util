@@ -7,5 +7,6 @@ docker run \
   --rm \
   -ti \
   -v $(pwd):/root/mooxe-golang-util \
-  mooxe/gopm \
+  -e GOPATH=/go:/root/mooxe-golang-util \
+  mooxe/golang \
   /bin/bash
