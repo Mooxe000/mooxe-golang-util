@@ -1,13 +1,13 @@
 package util
 
 import (
-  "os"
-  "io/ioutil"
+	"io/ioutil"
+	"os"
 )
 
-func FileStrFromPath(filePath string) (fileStr string) {
-  file, _ := os.Open(filePath)
+func FileStrFromPath(filePath string) string {
+	file, _ := os.Open(filePath)
 	defer file.Close()
-  reader, _ := ioutil.ReadAll(file)
-  return string(reader)
+	reader, _ := ioutil.ReadAll(file)
+	return string(reader)
 }

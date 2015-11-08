@@ -1,28 +1,22 @@
 package mxUtil
 
 import (
-  mxu "github.com/Mooxe000/mooxe-golang-util/src/util"
+	mxu "github.com/Mooxe000/mooxe-golang-util/src/util"
 )
 
 var (
-  // alias
-  Pln = mxu.Pln
-  Prf = mxu.Prf
+	// alias
+	Pln = mxu.Pln
+	Prf = mxu.Prf
 
-  // util
-  TypeOf = mxu.TypeOf
-  Dd = mxu.Dd
+	// util
+	TypeOf = mxu.TypeOf
+	Dd     = mxu.Dd
 
-  // io
-  FileStrFromPath = mxu.FileStrFromPath
+	// io
+	FileStrFromPath = mxu.FileStrFromPath
 )
 
-var (
-  pln = Pln
-)
-
-func PkgName() (string) {
-  pkgName := "mxUtil"
-  pln(pkgName)
-  return pkgName
+func PkgName() string {
+	return "mxUtil"
 }

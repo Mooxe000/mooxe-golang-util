@@ -1,17 +1,17 @@
 package main
 
 import (
-  . "util"
+	. "util"
 )
 
 var (
-  pln = Pln
-  dd = Dd
-  typeof = TypeOf
+	pln    = Pln
+	dd     = Dd
+	typeof = TypeOf
 )
 
 func main() {
-  pln("Hello World!!!")
-  dd("Hello Golang!!!")
-  pln(typeof("Hello"))
+	pln("Hello World!!!")
+	dd("Hello Golang!!!")
+	pln(typeof("Hello"))
 }
