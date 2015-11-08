@@ -4,9 +4,9 @@ import (
   . "github.com/Mooxe000/mooxe-golang-util/src/mxUtil"
 )
 
-var {
+var (
   pln = Pln
-}
+)
 
 func PkgName() (string) {
   pln("mxUtil")
