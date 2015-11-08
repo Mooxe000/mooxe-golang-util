@@ -5,7 +5,7 @@ import (
 )
 
 var (
-  dd = util.Dd
+  dd = mxUtil.Dd
 )
 
 func main() {

@@ -5,9 +5,9 @@ import (
 )
 
 var (
-  pln = util.Pln
-  dd = util.Dd
-  typeof = util.TypeOf
+  pln = mxUtil.Pln
+  dd = mxUtil.Dd
+  typeof = mxUtil.TypeOf
 )
 
 func main() {
