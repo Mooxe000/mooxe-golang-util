@@ -6,6 +6,7 @@ import (
 
 var (
   pln = Pln
+  Dd = Dd
 )
 
 func PkgName() {
