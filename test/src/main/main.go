@@ -16,4 +16,10 @@ func main() {
 
 	pkgName := PkgName()
 	Prf("Hello %s!!!\n", pkgName)
+
+  ms := MxSlice{"1", "2", "3", "4", "5"}
+  p, l := Pop(ms)
+  dd(ms)
+  dd(p)
+  dd(l)
 }
