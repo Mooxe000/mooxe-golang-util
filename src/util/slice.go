@@ -1,52 +1,52 @@
 package util
 
 import (
-  "errors"
+	"errors"
 )
 
 type MxSliceItf interface {
-  Len() int
-  At(int) interface{}
-  Slice(int, int) (MxSlice, error)
+	Len() int
+	At(int) interface{}
+	Slice(int, int) (MxSlice, error)
 }
 
 func Pop(a MxSliceItf) (interface{}, MxSlice) {
-  x := a.At(a.Len()-1)
-  v, _ := a.Slice(0, a.Len()-1)
-  return x, v
+	x := a.At(a.Len() - 1)
+	v, _ := a.Slice(0, a.Len()-1)
+	return x, v
 }
 
 type MxSlice []string
 
 func (ms MxSlice) Len() int {
-  return len(ms)
+	return len(ms)
 }
 
 func (ms MxSlice) At(n int) interface{} {
-  var r interface{}
-  l := len(ms)
-  if l!=0 && n>=0 && n<=l {
-    r = ms[n]
-  }
-  return r
+	var r interface{}
+	l := len(ms)
+	if l != 0 && n >= 0 && n <= l {
+		r = ms[n]
+	}
+	return r
 }
 
 func (ms MxSlice) Slice(start int, end int) (MxSlice, error) {
-  l := len(ms)
-  if l!=0 && start>=0 && end<=l {
-    return ms[start:end], nil
-  } else {
-    err := errors.New("Input parameter is incorrect.")
-    return nil, err
-  }
+	l := len(ms)
+	if l != 0 && start >= 0 && end <= l {
+		return ms[start:end], nil
+	} else {
+		err := errors.New("Input parameter is incorrect.")
+		return nil, err
+	}
 }
 
 func (ms MxSlice) ToStringSlice() []string {
-  a := make([]string, ms.Len())
-  for i, v := range ms {
-    a[i] = v
-  }
-  return a
+	a := make([]string, ms.Len())
+	for i, v := range ms {
+		a[i] = v
+	}
+	return a
 }
 
 // func Push(a []interface{}, x interface{}) ([]interface{}) {

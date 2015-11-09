@@ -12,12 +12,17 @@ var (
 	Pln = mxu.Pln
 	Prf = mxu.Prf
 
-	// util
-	TypeOf = mxu.TypeOf
+	// helper
 	Dd     = mxu.Dd
 
 	// io
 	FileStrFromPath = mxu.FileStrFromPath
+
+  // slice
+  Pop = mxu.Pop
+
+  // type
+	TypeOf = mxu.TypeOf
 )
 
 func PkgName() string {

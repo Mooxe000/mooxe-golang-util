@@ -1,7 +1,7 @@
 package util
 
 import (
-  "reflect"
+	"reflect"
 )
 
 func TypeOf(obj interface{}) string {

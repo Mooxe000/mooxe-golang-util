@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	dd     = Dd
+	dd = Dd
 )
 
 func Test_dd(t *testing.T) {
