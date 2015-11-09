@@ -4,6 +4,9 @@ import (
 	mxu "github.com/Mooxe000/mooxe-golang-util/src/util"
 )
 
+type MxSliceItf mxu.MxSliceItf
+type MxSlice mxu.MxSlice
+
 var (
 	// alias
 	Pln = mxu.Pln
