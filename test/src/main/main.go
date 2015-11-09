@@ -8,6 +8,7 @@ var (
 	dd  = Dd
 	pln = Pln
 	prf = Prf
+  pop = Pop
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 	Prf("Hello %s!!!\n", pkgName)
 
   ms := MxSlice{"1", "2", "3", "4", "5"}
-  p, l := Pop(ms)
+  p, l := pop(ms)
   dd(ms)
   dd(p)
   dd(l)

@@ -19,6 +19,10 @@ var (
 
   // slice
   Pop = mxu.Pop
+  Len = mxu.Len
+  At = mxu.At
+  Slice = mxu.Slice
+  ToStringSlice = mxu.ToStringSlice
 
   // type
 	TypeOf = mxu.TypeOf
