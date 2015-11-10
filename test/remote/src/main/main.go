@@ -12,15 +12,15 @@ var (
 )
 
 func main() {
-	Pln("Hello World!!!")
+	pln("Hello World!!!")
 	dd("Hello Golang!!!")
 
 	pkgName := PkgName()
-	Prf("Hello %s!!!\n", pkgName)
+	prf("Hello %s!!!\n", pkgName)
 
-  ms := MxSlice{"1", "2", "3", "4", "5"}
-  p, l := pop(ms)
+  ms := (MxSlice{MxSlice: []string{"1", "2", "3", "4", "5"}}).MxSlice
   dd(ms)
+  p, l := pop(ms)
   dd(p)
   dd(l)
 }
