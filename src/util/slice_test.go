@@ -32,7 +32,7 @@ func Test_String_Pop(t *testing.T) {
 		}
 	}
 
-  wms := WMxSliceItf{ms}
+	wms := WMxSliceItf{ms}
 	c, l := wms.Pop()
 	if c != "5" {
 		t.Error("Pop() ... failed!")

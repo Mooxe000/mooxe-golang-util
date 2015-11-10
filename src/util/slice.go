@@ -11,11 +11,11 @@ type MxSliceItf interface {
 }
 
 type WMxSliceItf struct {
-  MxSliceItf
+	MxSliceItf
 }
 
 func (msiv WMxSliceItf) Pop() (interface{}, MxSlice) {
-  a := msiv.MxSliceItf
+	a := msiv.MxSliceItf
 	x := a.At(a.Len() - 1)
 	v, _ := a.Slice(0, a.Len()-1)
 	return x, v
