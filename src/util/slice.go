@@ -41,7 +41,7 @@ func (ms MxSlice) Slice(start int, end int) (MxSlice, error) {
 	}
 }
 
-func (ms MxSlice) OutpuStrings() []string {
+func (ms MxSlice) OutputStrings() []string {
 	a := make([]string, ms.Len())
 	for i, v := range ms {
 		a[i] = v
