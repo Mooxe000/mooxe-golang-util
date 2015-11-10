@@ -23,7 +23,7 @@ func Test_Pop_String(t *testing.T) {
 	}
 
 	a := []string{"2", "3"}
-	b := v.ToStringSlice()
+	b := v.OutpuStrings()
 	for ii, i := range a {
 		for ij, j := range b {
 			if ii == ij && i != j {
@@ -37,7 +37,7 @@ func Test_Pop_String(t *testing.T) {
 		t.Error("Pop() ... failed!")
 	}
 	d := []string{"1", "2", "3", "4"}
-	e := l.ToStringSlice()
+	e := l.OutpuStrings()
 	if typeof(l) != "util.MxSlice" && l.Len() != 4 {
 		t.Error("Pop() ... failed!")
 	}
