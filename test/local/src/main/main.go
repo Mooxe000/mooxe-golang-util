@@ -18,7 +18,9 @@ func main() {
 	pkgName := PkgName()
 	prf("Hello %s!!!\n", pkgName)
 
-  ms := (MxSlice{MxSlice: []string{"1", "2", "3", "4", "5"}}).MxSlice
+  ms := MxSlice{
+    []string{"1", "2", "3", "4", "5"}}.
+    Super
   dd(ms)
   p, l := pop(ms)
   dd(p)

@@ -5,7 +5,7 @@ import (
 )
 
 type MxSlice struct {
-  MxSlice mxu.MxSlice
+  Super mxu.MxSlice
 }
 
 var (
