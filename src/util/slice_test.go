@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_Pop_String(t *testing.T) {
+func Test_String_Pop(t *testing.T) {
 	typeof := TypeOf
 
 	ms := MxSlice{"1", "2", "3", "4", "5"}
@@ -32,7 +32,8 @@ func Test_Pop_String(t *testing.T) {
 		}
 	}
 
-	c, l := Pop(ms)
+  wms := WMxSliceItf{ms}
+	c, l := wms.Pop()
 	if c != "5" {
 		t.Error("Pop() ... failed!")
 	}
@@ -51,3 +52,8 @@ func Test_Pop_String(t *testing.T) {
 
 	t.Log("Pop_String() ... ok!")
 }
+
+// func Test_String_Push(t *testing.T) {
+//
+// 	t.Log("Push_String() ... ok!")
+// }
