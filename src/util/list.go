@@ -1,147 +1,253 @@
 package util
 
 import (
-  "sort"
-  "container/list"
+	"container/list"
+	"sort"
+	// "reflect"
 )
 
-// TODO rename MxList TO MxList
 type MxList struct {
-  Value []interface{}
-  list *list.List
-  item interface{}
+	Value []interface{}
+	list  *list.List
+	item  interface{}
 }
 
 func (ml *MxList) New() *MxList {
-  l := list.New()
-  for _, v := range ml.Value {
-    l.PushBack(v)
-  }
-  ml.list = l
-  return ml
+	l := list.New() // TODO ml.list.init()
+	for _, v := range ml.Value {
+		l.PushBack(v)
+	}
+	ml.list = l
+	return ml
 }
 
+// (Sync) TODO arithmetic wait optimize
 func (ml *MxList) Sync() *MxList {
-  var r []interface{}
-  l := ml.list
-  for iter := l.Front();iter != nil ;iter = iter.Next() {
-    r = append(r, iter.Value)
-  }
-  ml.Value = r
-  return ml
+	var r []interface{}
+	l := ml.list
+	for iter := l.Front(); iter != nil; iter = iter.Next() {
+		r = append(r, iter.Value)
+	}
+	ml.Value = r
+	return ml
 }
 
 func (ml *MxList) Len() int {
-  l := ml.list
-  return l.Len()
+	l := ml.list
+	return l.Len()
 }
 
 func (ml *MxList) At(i int) *list.Element {
-  l := ml.list
-  ll := ml.Len()
-  var r *list.Element
-  if i < 0 || i >= ll {
-    return nil
-  } else {
-    start := l.Front()
-    switch i {
-    case 0 :
-      r = start
-    case ll - 1:
-      r = l.Back()
-    default:
-      t := 0
-      for e := start ; e != nil; e = e.Next() {
-        if t == i {
-          r = e
-          break
-        } else {
-          t++
-        }
-      }
-    }
-  }
-  return r
+	l := ml.list
+	ll := ml.Len()
+	var r *list.Element
+	if i < 0 || i >= ll {
+		return nil
+	} else {
+		start := l.Front()
+		switch i {
+		case 0:
+			r = start
+		case ll - 1:
+			r = l.Back()
+		default:
+			t := 0
+			for e := start; e != nil; e = e.Next() {
+				if t == i {
+					r = e
+					break
+				} else {
+					t++
+				}
+			}
+		}
+	}
+	return r
 }
 
 func (ml *MxList) Getter(i int) interface{} {
-  return ml.At(i).Value
+	return ml.At(i).Value
 }
 
 func (ml *MxList) Setter(i int, v interface{}) *MxList {
-  ml.At(i).Value = v
-  return ml
+	ml.At(i).Value = v
+	return ml
 }
 
+// (Remove)
 func (ml *MxList) Remove(i int) *MxList {
-  l := ml.list
-  item := ml.At(i)
-  l.Remove(item)
-  return ml
+	l := ml.list
+	item := ml.At(i)
+	l.Remove(item)
+	return ml
 }
 
 // Slice
 func (ml *MxList) Slice(s int, e int) *MxList {
-  var nml MxList
-  v := ml.Value
-  nml.Value = v[s:e]
-  Pml := &nml
-  Pml.New()
-  return &nml
+	var nml MxList
+	v := ml.Value
+	nml.Value = v[s:e]
+	Pml := &nml
+	Pml.New()
+	return &nml
 }
 
 // (Split)
 func (ml *MxList) Split(ii ...int) []MxList {
-  if len(ii) <= 0 {
-    return nil
+	if len(ii) <= 0 {
+		return nil
+	}
+	sort.Ints(ii)
+	start := 0
+	var mls []MxList
+	for _, v := range ii {
+		if v >= 0 && v < ml.Len() {
+			var nml MxList
+			nml.Value = ml.Slice(start, v).Value
+			nml.New()
+			mls = append(mls, nml)
+			start = v
+		}
+	}
+  if ii[len(ii)-1] != ml.Len() {
+		var nml MxList
+		nml.Value = ml.Slice(ii[len(ii)-1], ml.Len()).Value
+		nml.New()
+		mls = append(mls, nml)
   }
-  sort.Ints(ii)
-  start := 0
-  var r []MxList
-  for _, v := range ii {
-    if v >=0 && v < ml.Len() {
-      var mls MxList
-      mls.Value = ml.Slice(start, v).Value
-      mls.New()
-      r = append(r, mls)
-      start = v
-    }
-  }
-  return r
+	return mls
 }
 
 // (Concat)
+func (ml *MxList) Concat(mls []MxList) *MxList {
+	var nml MxList
+	Pnml := &nml
+	for _, v := range mls {
+    if Pnml.list == nil {
+      Pnml.list = v.list
+    } else {
+      Pnml.list.PushBackList(v.list)
+    }
+	}
+  ml.list = Pnml.list
+	return ml
+}
+
+// (RemoveList)
+func (ml *MxList) RemoveList(s int, e int) *MxList {
+	if s == e {
+		return ml
+	}
+	if s > e {
+		t := e
+		s = t
+		e = s
+	}
+	l := ml.Len()
+	if s <= 0 {
+		ml.list = ml.Slice(e, l).list
+	} else if e >= l {
+		ml.list = ml.Slice(0, s).list
+	} else {
+    mls := ml.Split(s, e) // []MxList
+    var nmls []MxList
+    nmls = append(nmls, mls[0])
+    nmls = append(nmls, mls[len(mls)-1])
+    ml.Concat(nmls)
+	}
+  return ml
+}
 
 // (Insert)
+// func (ml *MxList) Insert(i int) *MxList {
+// }
+// (InsertList)
+
 // (Without)
 
 // get last
 func (ml *MxList) Pop() interface{} {
-  leng := ml.Len()-1
-  p := ml.Getter(leng)
-  ml.Remove(leng)
-  return p
+	leng := ml.Len() - 1
+	p := ml.Getter(leng)
+	ml.Remove(leng)
+	return p
 }
 
 // add last
 func (ml *MxList) Push(i interface{}) *MxList {
-  l := ml.list
-  l.PushBack(i)
-  return ml
+	l := ml.list
+	l.PushBack(i)
+	return ml
 }
 
 // get first
 func (ml *MxList) Shift() interface{} {
-  p := ml.Getter(0)
-  ml.Remove(0)
-  return p
+	p := ml.Getter(0)
+	ml.Remove(0)
+	return p
 }
 
 // add first
 func (ml *MxList) Unshift(i interface{}) *MxList {
-  l := ml.list
-  l.PushFront(i)
-  return ml
+	l := ml.list
+	l.PushFront(i)
+	return ml
 }
 
 // (IndexOf)
+// (Flatten)
+// (Sort)
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+// func (ml *MxList) RemoveListReflect(s int, e int) *MxList {
+//   if s == e {
+//     return ml
+//   }
+//   if s > e {
+//     t := e
+//     s = t
+//     e = s
+//   }
+//   l := ml.Len()
+//   if s <= 0 {
+//     ml.list = ml.Slice(e, l).list
+//   } else if e >= l {
+//     ml.list = ml.Slice(0, s).list
+//   } else {
+//     hb := reflect.ValueOf(ml.At(s-1)).Elem()
+//     ff := reflect.ValueOf(ml.At(e+1)).Elem()
+//
+//     // 0 - Next 1 - Prev
+//     // 2 - List 3 - Value
+//     // dd(hb.Type().Field(n).Name)
+//
+//     // dd(hb.Field(1).CanSet())
+//
+//     // dd(hb.Field(3).Interface())
+//     // var v interface{} = "-------------"
+//     // hb.Field(3).Set(reflect.ValueOf(v))
+//     // ff.Field(3).Set(reflect.ValueOf(v))
+//
+//     hbn := hb.Field(0)
+//     ffp := ff.Field(1)
+//
+//     dd(hbn.CanSet())
+//     dd(ffp.CanSet())
+//
+//     Phb := ml.At(s).Prev()
+//     Pff := ml.At(e).Next()
+//
+//     pln(reflect.ValueOf(Phb).Type())
+//     pln(reflect.ValueOf(Pff).Type())
+//
+//     pln(hbn.Type())
+//     pln(ffp.Type())
+//
+//     // hbn.Set(reflect.ValueOf(&Phb))
+//     // ffp.Set(reflect.ValueOf(&Pff))
+//   }
+//
+//   return ml
+// }

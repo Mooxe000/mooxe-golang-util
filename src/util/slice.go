@@ -21,6 +21,14 @@ func (msiv WMxSliceItf) Pop() (interface{}, MxSlice) {
 	return x, v
 }
 
+// -- ml.Value
+// var v []interface{}
+// h := ml.Value[0:s]
+// f := ml.Value[e+1:len(ml.Value)]
+// v = append(v, h)
+// v = append(v, f)
+// ml.Value = v
+
 // func (msiv WMxSliceItf) Push(x interface{}) (MxSlice) {
 //   a := msiv.MxSliceItf
 //   a = append(a, x)
