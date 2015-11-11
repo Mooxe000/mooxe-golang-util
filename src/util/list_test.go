@@ -30,7 +30,7 @@ func Test_MxList(t *testing.T) {
 	// dd(Pml.Slice(4, 2).Value)
 	// dd(Pml.Value)
 
-  // dd(Pml.Split(4, 2))
+	// dd(Pml.Split(4, 2))
 	// Pml.Concat(Pml.Split(4, 2)).Sync()
 
 	// Pml.Remove(4).Push("5").Sync()

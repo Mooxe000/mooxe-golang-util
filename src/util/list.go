@@ -109,12 +109,12 @@ func (ml *MxList) Split(ii ...int) []MxList {
 			start = v
 		}
 	}
-  if ii[len(ii)-1] != ml.Len() {
+	if ii[len(ii)-1] != ml.Len() {
 		var nml MxList
 		nml.Value = ml.Slice(ii[len(ii)-1], ml.Len()).Value
 		nml.New()
 		mls = append(mls, nml)
-  }
+	}
 	return mls
 }
 
@@ -123,13 +123,13 @@ func (ml *MxList) Concat(mls []MxList) *MxList {
 	var nml MxList
 	Pnml := &nml
 	for _, v := range mls {
-    if Pnml.list == nil {
-      Pnml.list = v.list
-    } else {
-      Pnml.list.PushBackList(v.list)
-    }
+		if Pnml.list == nil {
+			Pnml.list = v.list
+		} else {
+			Pnml.list.PushBackList(v.list)
+		}
 	}
-  ml.list = Pnml.list
+	ml.list = Pnml.list
 	return ml
 }
 
@@ -149,13 +149,13 @@ func (ml *MxList) RemoveList(s int, e int) *MxList {
 	} else if e >= l {
 		ml.list = ml.Slice(0, s).list
 	} else {
-    mls := ml.Split(s, e) // []MxList
-    var nmls []MxList
-    nmls = append(nmls, mls[0])
-    nmls = append(nmls, mls[len(mls)-1])
-    ml.Concat(nmls)
+		mls := ml.Split(s, e) // []MxList
+		var nmls []MxList
+		nmls = append(nmls, mls[0])
+		nmls = append(nmls, mls[len(mls)-1])
+		ml.Concat(nmls)
 	}
-  return ml
+	return ml
 }
 
 // (Insert)
