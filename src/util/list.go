@@ -2,14 +2,13 @@ package util
 
 import (
 	"container/list"
-	"sort"
+	// "sort"
 	// "reflect"
 )
 
 type MxList struct {
 	Value []interface{}
 	list  *list.List
-	item  interface{}
 }
 
 func (ml *MxList) New() *MxList {
@@ -66,15 +65,15 @@ func (ml *MxList) At(i int) *list.Element {
 }
 
 func (ml *MxList) Getter(i int) interface{} {
-	return ml.At(i).Value
+	return ml.Value[i]
 }
 
 func (ml *MxList) Setter(i int, v interface{}) *MxList {
-	ml.At(i).Value = v
+	ml.Value[i] = v
 	return ml
 }
 
-// (Remove)
+// Remove
 func (ml *MxList) Remove(i int) *MxList {
 	l := ml.list
 	item := ml.At(i)
@@ -86,39 +85,90 @@ func (ml *MxList) Remove(i int) *MxList {
 func (ml *MxList) Slice(s int, e int) *MxList {
 	var nml MxList
 	v := ml.Value
-	nml.Value = v[s:e]
+	nml.Value = v[s : e+1]
 	Pml := &nml
 	Pml.New()
 	return &nml
 }
 
-// (Split)
-func (ml *MxList) Split(ii ...int) []MxList {
-	if len(ii) <= 0 {
-		return nil
-	}
-	sort.Ints(ii)
-	start := 0
+// TODO Split To Chunk
+func (ml *MxList) Chunk(ii ...int) []MxList {
+	lii := len(ii)
+
 	var mls []MxList
-	for _, v := range ii {
-		if v >= 0 && v < ml.Len() {
-			var nml MxList
-			nml.Value = ml.Slice(start, v).Value
-			nml.New()
-			mls = append(mls, nml)
-			start = v
-		}
+
+	if lii <= 0 {
+		mls = append(mls, *ml)
+		return mls
 	}
-	if ii[len(ii)-1] != ml.Len() {
-		var nml MxList
-		nml.Value = ml.Slice(ii[len(ii)-1], ml.Len()).Value
-		nml.New()
-		mls = append(mls, nml)
+
+	f := ii[0]
+	if f < 0 || f >= ml.Len() {
+
+		mls = append(mls, *ml)
+		return mls
+
+	} else {
+
+		s, e := 0, f
+		// dd(s)
+		// dd(e)
+
+		for i := 1; ; i++ {
+      if s != e {
+  			var nml MxList
+  			nml.Value = ml.Slice(s, e-1).Value
+  			nml.New()
+  			mls = append(mls, nml)
+      }
+
+			// start point
+			if e >= ml.Len() {
+				break
+			} else {
+				s = e
+			}
+
+			// end point
+			// -- step n
+			var n int
+			if lii == 1 { // one repeat
+
+        if f == 0 {
+
+          mls = append(mls, *ml)
+      		return mls
+
+        } else{
+				  n = f
+        }
+			} else { // one by one
+				if i < lii { // item left
+					if ii[i] == 0 {
+						continue
+					} else {
+						n = ii[i]
+					}
+				} else { // item empty
+					n = ml.Len() - s
+				}
+			}
+
+      if s+n >= ml.Len() {
+        n = ml.Len() - s
+      }
+
+			// prf("s: %d\n", s)
+			// prf("e: %d\n", e)
+			// prf("n: %d\n", n)
+
+			e = s + n
+		}
 	}
 	return mls
 }
 
-// (Concat)
+// Concat
 func (ml *MxList) Concat(mls []MxList) *MxList {
 	var nml MxList
 	Pnml := &nml
@@ -133,37 +183,33 @@ func (ml *MxList) Concat(mls []MxList) *MxList {
 	return ml
 }
 
-// (RemoveList)
-func (ml *MxList) RemoveList(s int, e int) *MxList {
-	if s == e {
-		return ml
-	}
-	if s > e {
-		t := e
-		s = t
-		e = s
-	}
-	l := ml.Len()
-	if s <= 0 {
-		ml.list = ml.Slice(e, l).list
-	} else if e >= l {
-		ml.list = ml.Slice(0, s).list
-	} else {
-		mls := ml.Split(s, e) // []MxList
-		var nmls []MxList
-		nmls = append(nmls, mls[0])
-		nmls = append(nmls, mls[len(mls)-1])
-		ml.Concat(nmls)
-	}
-	return ml
-}
-
-// (Insert)
-// func (ml *MxList) Insert(i int) *MxList {
+// Remove
+// RemoveList
+// func (ml *MxList) RemoveList(s int, e int) *MxList {
+// 	if s == e {
+// 		return ml
+// 	}
+//   ii := []int{s, e}
+//   sort.Ints(ii)
+//   dd(ii)
+// 	l := ml.Len()
+// 	if s <= 0 {
+// 		ml.list = ml.Slice(e, l).list
+// 	} else if e >= l {
+// 		ml.list = ml.Slice(0, s).list
+// 	} else {
+// 		mls := ml.Slice(s, e) // []MxList
+// 		var nmls []MxList
+// 		nmls = append(nmls, mls[0])
+// 		nmls = append(nmls, mls[len(mls)-1])
+// 		ml.Concat(nmls)
+// 	}
+// 	return ml
 // }
-// (InsertList)
 
-// (Without)
+// Insert
+// InsertList
+// Without
 
 // get last
 func (ml *MxList) Pop() interface{} {
