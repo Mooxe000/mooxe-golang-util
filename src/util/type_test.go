@@ -16,6 +16,11 @@ func Test_TypeOf(t *testing.T) {
 	}
 }
 
+
+// func (i Integer) ToString() string {
+//   return strconv.Itoa(i)
+// }
+
 func Test_IsType(t *testing.T) {
 
   // s := "Hello World!!!"

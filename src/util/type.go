@@ -150,5 +150,12 @@ func IsChan(i interface{}) bool {
 }
 
 func IntToString(i int) string {
- return strconv.Itoa(i)
+  return strconv.Itoa(i)
 }
+
+// without
+// type Integer int
+//
+// func (a Integer) Less(b Integer) bool {
+//     return a < b
+// }

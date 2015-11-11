@@ -1,6 +1,7 @@
 package util
 
 import (
+  "sort"
   "container/list"
 )
 
@@ -90,8 +91,29 @@ func (ml *MxList) Slice(s int, e int) *MxList {
 }
 
 // (Split)
+func (ml *MxList) Split(ii ...int) []MxList {
+  if len(ii) <= 0 {
+    return nil
+  }
+  sort.Ints(ii)
+  start := 0
+  var r []MxList
+  for _, v := range ii {
+    if v >=0 && v < ml.Len() {
+      var mls MxList
+      mls.Value = ml.Slice(start, v).Value
+      mls.New()
+      r = append(r, mls)
+      start = v
+    }
+  }
+  return r
+}
+
 // (Concat)
+
 // (Insert)
+// (Without)
 
 // get last
 func (ml *MxList) Pop() interface{} {
