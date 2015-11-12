@@ -86,17 +86,60 @@ func (ml *MxList) Remove(i int) *MxList {
 	return ml
 }
 
-// Slice
-func (ml *MxList) Slice(s int, e int) *MxList {
-	var nml MxList
-	v := ml.Value
-	nml.Value = v[s : e+1]
-	Pml := &nml
-	Pml.New()
-	return &nml
+func iCheck(i int, l int) int {
+	var r int
+	if i < 0 {
+		r = 0
+	} else if i >= l {
+		r = l - 1
+	} else {
+		r = i
+	}
+	return r
 }
 
-// TODO Split To Chunk
+func seCheck(s int, e int, l int) (int, int) {
+	ii := []int{s, e}
+	sort.Ints(ii)
+	// dd(ii)
+	a, b := ii[0], ii[1]
+	if a < 0 && b < 0 {
+		a, b = 0, 0
+	} else if a >= l && b >= l {
+		a, b = l-1, l-1
+	} else if a < 0 && b >= l {
+		a = 0
+		b = l - 1
+	} else if a < 0 && b >= 0 {
+		a = 0
+	} else if a >= 0 && b >= l {
+		b = l - 1
+	}
+	return a, b
+}
+
+// Slice
+func (ml *MxList) Slice(s int, e int) *MxList {
+	l := ml.Len()
+	a, b := seCheck(s, e, l)
+
+	var nml MxList
+	v := ml.Value
+
+	if a == b {
+		var is []interface{}
+		is = append(is, v[s])
+		nml.Value = is
+
+	} else {
+		nml.Value = v[a : b+1]
+	}
+
+	Pml := &nml
+	Pml.New()
+	return Pml
+}
+
 func (ml *MxList) Chunk(ii ...int) []MxList {
 	lii := len(ii)
 
@@ -190,45 +233,100 @@ func (ml *MxList) Concat(mls []MxList) *MxList {
 
 // RemoveList
 func (ml *MxList) RemoveList(s int, e int) *MxList {
-	if s == e {
-		return ml.Remove(s)
-	}
-	ii := []int{s, e}
-	sort.Ints(ii)
-	// dd(ii)
-	a := ii[0]
-	b := ii[1]
 	l := ml.Len()
-	if a > l || b < 0 {
-		// pln("--------- 000 ---------")
-		return ml
-	} else if a <= 0 && b >= l-1 {
-		// pln("--------- 001 ---------")
+	a, b := seCheck(s, e, l)
+
+	if a == b {
+		return ml.Remove(s)
+
+	} else if a == 0 && b == l-1 {
 		ml.list.Init()
 		return ml
-	} else if a <= 0 && b < l-1 {
-		// pln("--------- 002 ---------")
-		ml.list = ml.Slice(b, l-1).list
-	} else if a > 0 && b >= l-1 {
-		// pln("--------- 003 ---------")
+
+	} else if a == 0 && b < l-1 {
+		ml.list = ml.Slice(b+1, l-1).list
+
+	} else if a > 0 && b == l-1 {
 		ml.list = ml.Slice(0, a-1).list
-	} else { // s > 0 && e < l
-		// pln("--------- 004 ---------")
+
+	} else { // a > 0 && b < l - 1
+
 		var mls []MxList
+
 		mla := ml.Slice(0, a-1)
 		mlb := ml.Slice(b+1, l-1)
+
 		// dd(mla.Value)
 		// dd(mlb.Value)
+
 		mls = append(mls, *mla)
 		mls = append(mls, *mlb)
+
 		ml.list = ml.Concat(mls).list
+	}
+
+	return ml
+}
+
+// InsertList
+func (ml *MxList) InsertList(i int, nml *MxList) *MxList {
+	l := ml.Len()
+	i = iCheck(i, l)
+
+	Tml := typeof(ml.Value[0])
+	Tnml := typeof(nml.Value[0])
+	if Tml != Tnml {
+		return ml
+	}
+
+	var mls []MxList
+	if i == 0 {
+
+		mls = append(mls, *nml)
+		mls = append(mls, *ml)
+		ml.Concat(mls)
+
+	} else if i == l-1 {
+
+		mls = append(mls, *ml)
+		mls = append(mls, *nml)
+		ml.Concat(mls)
+
+	} else {
+
+		a := ml.Slice(0, i-1)
+		b := ml.Slice(i, l-1)
+		mls = append(mls, *a)
+		mls = append(mls, *nml)
+		mls = append(mls, *b)
+		ml.Concat(mls)
+
 	}
 	return ml
 }
 
 // Insert
-// InsertList
-// Without
+func (ml *MxList) Insert(i int, ii interface{}) *MxList {
+	l := ml.Len()
+	i = iCheck(i, l)
+
+	Tml := typeof(ml.Value[0])
+	Tii := typeof(ii)
+	if Tml != Tii {
+		return ml
+	}
+
+	var v []interface{}
+	v = append(v, ii)
+	var nml MxList
+	nml.Value = v
+	Pnml := &nml
+	Pnml.New()
+
+	ml.InsertList(i, Pnml).Sync()
+
+	return ml
+}
 
 // get last
 func (ml *MxList) Pop() interface{} {
@@ -259,6 +357,7 @@ func (ml *MxList) Unshift(i interface{}) *MxList {
 	return ml
 }
 
+// (Without)
 // (IndexOf)
 // (Flatten)
 // (Sort)

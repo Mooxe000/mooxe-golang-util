@@ -153,6 +153,60 @@ func Test_Remove_Sync(t *testing.T) {
 	t.Log(FuncName + " ... ok!")
 }
 
+func Test_iCheck(t *testing.T) {
+	FuncName := "MxLists.iCheck()"
+
+	// i, l := 0, 5
+
+	// -- i < 0
+	// i = -5
+	// -- i >= l
+	// i = 10
+	// -- 0 <= i < l
+	// i = 2
+	// i = 0
+	// i = 4
+
+	// dd(iCheck(i, l))
+
+	t.Log(FuncName + " ... ok!")
+}
+
+func Test_seCheck(t *testing.T) {
+	FuncName := "MxLists.seCheck()"
+
+	// -- a == b == 0
+	// s, e, l := 0, 0, 5       // 0, 0
+
+	// -- a < 0 && b < 0
+	// s, e = -5, -10           // 0, 0
+	// -- a >=l && b >= l
+	// s, e = 5, 10             // 4, 4
+	// -- a < 0 && b >= l
+	// s, e = -5, 10            // 0, 4
+	// -- a < 0 && b >= 0
+	// s, e = -5, 2             // 0, 2
+	// -- a >= 0 && b >= l
+	// s, e = 2, 10             // 2, 4
+
+	// -- a == b == l - 1
+	// s, e = 4, 4              // 4, 4
+	// -- a == 0 && b == l - 1
+	// s, e = 0, 4              // 0, 4
+	// -- 0 < a < b < l
+	// s, e = 1, 3              // 1, 3
+	// -- a = 0
+	// s, e = 0, 2              // 0, 2
+	// -- b = l - 1
+	// s, e = 2, 4              // 2, 4
+
+	// a, b := seCheck(s, e, l)
+	// dd(a)
+	// dd(b)
+
+	t.Log(FuncName + " ... ok!")
+}
+
 func Test_Slice(t *testing.T) {
 	FuncName := "MxLists.Slice()"
 
@@ -160,13 +214,23 @@ func Test_Slice(t *testing.T) {
 	Pssml := &ssml
 	Pssml.New()
 
-	v := Pssml.Slice(1, 3)
+	// -- a == b == 0
+	// s, e, _ := 0, 0, 5       // 1
+
+	// -- a == b == l - 1
+	// s, e = 4, 4              // 5
+	// -- a == 0 && b == l - 1
+	// s, e = 0, 4              // 1, 2, 3, 4, 5
+	// -- 0 < a < b < l
+	// s, e = 1, 3              // 2, 3, 4
+	// a = 0
+	// s, e = 0, 2              // 1, 2, 3
+	// b = l - 1
+	// s, e = 2, 4              // 3, 4, 5
+
+	// v := Pssml.Slice(s, e)
 
 	// dd(v.Value)
-
-	if v.Len() != 3 || v.Value[1] != "3" {
-		t.Error(FuncName + " ... failed!")
-	}
 
 	t.Log(FuncName + " ... ok!")
 }
@@ -351,25 +415,67 @@ func Test_RemoveList(t *testing.T) {
 	Pssml := &ssml
 	Pssml.New()
 
-	// l := Pssml.Len()
+	// -- a == b == 0
+	// s, e, _ := 0, 0, 5        // 2, 3, 4, 5
 
-	// Pssml.RemoveList(-1, -1)
-	// Pssml.RemoveList(l, l)
-	// Pssml.RemoveList(0, 0)
-	// Pssml.RemoveList(l-1, l-1)
-	// Pssml.RemoveList(2, 2)
+	// -- a == b == l - 1
+	// s, e = 4, 4               // 1, 2, 3, 4
+	// -- a == 0 && b == l - 1
+	// s, e = 0, 4               // nil
+	// -- 0 < a < b < l
+	// s, e = 1, 3               // 1, 5
+	// a = 0
+	// s, e = 0, 2               // 4, 5
+	// b = l - 1
+	// s, e = 2, 4               // 1, 2
 
-	// Pssml.RemoveList(0, l)
-	// Pssml.RemoveList(0, l-1)
-	// Pssml.RemoveList(-1, l-1)
-
-	// Pssml.RemoveList(-1, -4)
-	// Pssml.RemoveList(4, 10)
-	// Pssml.RemoveList(2, -5)
-	// Pssml.RemoveList(2, 4)
-	// Pssml.RemoveList(2, 3)
+	// Pssml.RemoveList(s, e)
 
 	// dd(Pssml.Sync().Value)
+
+	t.Log(FuncName + " ... ok!")
+}
+
+func Test_InsertList(t *testing.T) {
+	FuncName := "MxLists.InsertList()"
+
+	ssml, iiml := getMxListIns()
+	Pssml := &ssml
+	Piiml := &iiml
+	Pssml.New()
+	Piiml.New()
+
+	// Pssml.InsertList(2, Piiml)
+
+	// var nssml MxList
+	// nssmi := MxInterface{[]string{"a", "b", "c", "d", "e"}}
+	// nssml.Value = nssmi.ToInterfaces()
+	// Pnssml := (&nssml).New()
+
+	// Pssml.InsertList(0, Pnssml)
+	// Pssml.InsertList(2, Pnssml)
+	// Pssml.InsertList(4, Pnssml)
+	// Pssml.InsertList(5, Pnssml)
+
+	// dd(Pssml.Sync().Value)
+
+	t.Log(FuncName + " ... ok!")
+}
+
+func Test_Insert(t *testing.T) {
+	FuncName := "MxLists.Insert()"
+
+	ssml, _ := getMxListIns()
+	Pssml := &ssml
+	Pssml.New()
+
+	// var a interface{} = 50
+	// Pssml.Insert(2, a)
+
+	// var b interface{} = "100"
+	// Pssml.Insert(2, b)
+
+	// dd(Pssml.Value)
 
 	t.Log(FuncName + " ... ok!")
 }
