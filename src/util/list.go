@@ -2,7 +2,7 @@ package util
 
 import (
 	"container/list"
-	// "sort"
+	"sort"
 	// "reflect"
 )
 
@@ -75,6 +75,9 @@ func (ml *MxList) Setter(i int, v interface{}) *MxList {
 
 // Remove
 func (ml *MxList) Remove(i int) *MxList {
+	if i < 0 || i >= ml.Len() {
+		return ml
+	}
 	l := ml.list
 	item := ml.At(i)
 	l.Remove(item)
@@ -115,12 +118,12 @@ func (ml *MxList) Chunk(ii ...int) []MxList {
 		// dd(e)
 
 		for i := 1; ; i++ {
-      if s != e {
-  			var nml MxList
-  			nml.Value = ml.Slice(s, e-1).Value
-  			nml.New()
-  			mls = append(mls, nml)
-      }
+			if s != e {
+				var nml MxList
+				nml.Value = ml.Slice(s, e-1).Value
+				nml.New()
+				mls = append(mls, nml)
+			}
 
 			// start point
 			if e >= ml.Len() {
@@ -134,14 +137,14 @@ func (ml *MxList) Chunk(ii ...int) []MxList {
 			var n int
 			if lii == 1 { // one repeat
 
-        if f == 0 {
+				if f == 0 {
 
-          mls = append(mls, *ml)
-      		return mls
+					mls = append(mls, *ml)
+					return mls
 
-        } else{
-				  n = f
-        }
+				} else {
+					n = f
+				}
 			} else { // one by one
 				if i < lii { // item left
 					if ii[i] == 0 {
@@ -154,9 +157,9 @@ func (ml *MxList) Chunk(ii ...int) []MxList {
 				}
 			}
 
-      if s+n >= ml.Len() {
-        n = ml.Len() - s
-      }
+			if s+n >= ml.Len() {
+				n = ml.Len() - s
+			}
 
 			// prf("s: %d\n", s)
 			// prf("e: %d\n", e)
@@ -183,29 +186,43 @@ func (ml *MxList) Concat(mls []MxList) *MxList {
 	return ml
 }
 
-// Remove
 // RemoveList
-// func (ml *MxList) RemoveList(s int, e int) *MxList {
-// 	if s == e {
-// 		return ml
-// 	}
-//   ii := []int{s, e}
-//   sort.Ints(ii)
-//   dd(ii)
-// 	l := ml.Len()
-// 	if s <= 0 {
-// 		ml.list = ml.Slice(e, l).list
-// 	} else if e >= l {
-// 		ml.list = ml.Slice(0, s).list
-// 	} else {
-// 		mls := ml.Slice(s, e) // []MxList
-// 		var nmls []MxList
-// 		nmls = append(nmls, mls[0])
-// 		nmls = append(nmls, mls[len(mls)-1])
-// 		ml.Concat(nmls)
-// 	}
-// 	return ml
-// }
+func (ml *MxList) RemoveList(s int, e int) *MxList {
+	if s == e {
+		return ml.Remove(s)
+	}
+	ii := []int{s, e}
+	sort.Ints(ii)
+	// dd(ii)
+	a := ii[0]
+	b := ii[1]
+	l := ml.Len()
+	if a > l || b < 0 {
+		// pln("--------- 000 ---------")
+		return ml
+	} else if a <= 0 && b >= l-1 {
+		// pln("--------- 001 ---------")
+		ml.list.Init()
+		return ml
+	} else if a <= 0 && b < l-1 {
+		// pln("--------- 002 ---------")
+		ml.list = ml.Slice(b, l-1).list
+	} else if a > 0 && b >= l-1 {
+		// pln("--------- 003 ---------")
+		ml.list = ml.Slice(0, a-1).list
+	} else { // s > 0 && e < l
+		// pln("--------- 004 ---------")
+		var mls []MxList
+		mla := ml.Slice(0, a-1)
+		mlb := ml.Slice(b+1, l-1)
+		// dd(mla.Value)
+		// dd(mlb.Value)
+		mls = append(mls, *mla)
+		mls = append(mls, *mlb)
+		ml.list = ml.Concat(mls).list
+	}
+	return ml
+}
 
 // Insert
 // InsertList
