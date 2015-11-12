@@ -20,6 +20,8 @@ func (ml *MxList) New() *MxList {
 	return ml
 }
 
+// TODO params int TO uint avoid border check
+
 // (Sync) TODO arithmetic wait optimize
 func (ml *MxList) Sync() *MxList {
 	var r []interface{}
