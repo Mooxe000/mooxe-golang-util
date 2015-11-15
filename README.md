@@ -1,1 +1,1 @@
-# Golang Util of Mooxe
+# Golang Util of GoLang by Mooxe
